@@ -12,7 +12,6 @@ let currentTask = {};
 let taskChecked = false;
 
 function addTask() {
-
   const taskObj = {
     id: `${Date.now()}`,
     title: `${taskTitle.value}`,
@@ -22,11 +21,9 @@ function addTask() {
   taskList.unshift(taskObj);
 
   getNewTaskList();
-
 }
 
 function updateTask() {
-
   const taskListIndex = taskList.findIndex(
     (item) => item.id === currentTask.id
   );
@@ -55,8 +52,7 @@ addBtn.addEventListener("click", () => {
 });
 
 taskSubmit.addEventListener("click", () => {
-
-    if (!taskTitle.value) {
+  if (!taskTitle.value) {
     alert("Task title cannot be empty.");
     return;
   }
@@ -68,80 +64,50 @@ taskSubmit.addEventListener("click", () => {
   }
 
   toggler();
-
 });
 
-// function getTaskList() {
-//   taskContainer.innerHTML = "";
-//   taskList.forEach((el) => {
-//     taskContainer.innerHTML += `
-//         <div id="${el.id}">
-//             <div class="task-check">
-//             <p id="show-task" style="color: ${
-//               el.checked ? "red" : "inherit"
-//             };">${el.title}</p>
-//             <input type="checkbox" id="check-task" onchange="checkedTask(${
-//               el.id
-//             })" ${el.checked ? "checked" : ""}>
-//             </div>
-//             <button type="button" id="edit-btn" onclick="editTask('${
-//               el.id
-//             }')">Edit</button>
-//             <button type="button" id="delete-btn" onclick="deleteTask('${
-//               el.id
-//             }')">Delete</button>
-//         </div>
-//         `;
-//   });
-// }
-
-// trying to work with create element
-
 function getNewTaskList() {
-  
-    taskContainer.replaceChildren();
+  taskContainer.replaceChildren();
 
   taskList.forEach((el) => {
     const listContainer = document.createElement("div");
     listContainer.id = `${el.id}`;
 
-    const singleTaskContainer = document.createElement('div');
-    singleTaskContainer.classList.add('task-check');
+    const singleTaskContainer = document.createElement("div");
+    singleTaskContainer.classList.add("task-check");
 
-    const title = document.createElement('p');
+    const title = document.createElement("p");
     title.classList.add("show-task");
     title.textContent = el.title;
-    title.style.color = el.checked ? 'red' : 'inherit';
+    title.style.color = el.checked ? "red" : "inherit";
 
-    const checkboxInput = document.createElement('input');
-    checkboxInput.type = 'checkbox';
-    checkboxInput.classList.add('check-task');
+    const checkboxInput = document.createElement("input");
+    checkboxInput.type = "checkbox";
+    checkboxInput.classList.add("check-task");
     checkboxInput.checked = el.checked;
 
-    checkboxInput.addEventListener("change" , () => checkedTask(`${el.id}`));
+    checkboxInput.addEventListener("change", () => checkedTask(`${el.id}`));
 
-    singleTaskContainer.append(title , checkboxInput);
+    singleTaskContainer.append(title, checkboxInput);
 
-    const editButton = document.createElement('button');
-    editButton.classList.add('edit-btn');
+    const editButton = document.createElement("button");
+    editButton.classList.add("edit-btn");
     editButton.type = "button";
-    editButton.textContent = 'Edit';
+    editButton.textContent = "Edit";
 
-    editButton.addEventListener("click" , () => editTask(`${el.id}`));
+    editButton.addEventListener("click", () => editTask(`${el.id}`));
 
-    const deleteButton = document.createElement('button');
-    deleteButton.classList.add('delete-btn');
+    const deleteButton = document.createElement("button");
+    deleteButton.classList.add("delete-btn");
     deleteButton.type = "button";
-    deleteButton.textContent = 'Delete';
+    deleteButton.textContent = "Delete";
 
-    deleteButton.addEventListener("click" , () => deleteTask(`${el.id}`));
+    deleteButton.addEventListener("click", () => deleteTask(`${el.id}`));
 
-    listContainer.append(singleTaskContainer , editButton , deleteButton);
+    listContainer.append(singleTaskContainer, editButton, deleteButton);
 
     taskContainer.appendChild(listContainer);
-
   });
-  
 }
 
 function deleteTask(id) {
@@ -152,9 +118,8 @@ function deleteTask(id) {
   const taskListIndex = taskList.findIndex((item) => item.id === id);
 
   taskList.splice(taskListIndex, 1);
-// getTaskList();
+  // getTaskList();
   getNewTaskList();
-
 }
 
 function editTask(id) {
@@ -171,7 +136,6 @@ function editTask(id) {
 
 function checkedTask(id) {
   taskList = taskList.map((item) => {
-
     return {
       id: item.id,
       title: item.title,
