@@ -1,15 +1,9 @@
 const addBtn = document.getElementById("add-btn");
-const editBtn = document.getElementById("edit-btn");
-const deleteBtn = document.getElementById("delete-btn");
 
 const addTaskContainer = document.getElementById("add-task-container");
 const taskSubmit = document.getElementById("task-submit");
 const taskTitle = document.getElementById("task-title");
 const taskContainer = document.getElementById("task-container");
-
-const showTask = document.getElementById("show-task");
-
-let checkTask = document.getElementById("check-task");
 
 let taskList = [];
 
@@ -18,10 +12,6 @@ let currentTask = {};
 let taskChecked = false;
 
 function addTask() {
-  if (!taskTitle.value) {
-    alert("Task title cannot be empty.");
-    return;
-  }
 
   const taskObj = {
     id: `${Date.now()}`,
@@ -31,14 +21,11 @@ function addTask() {
 
   taskList.unshift(taskObj);
 
-  getTaskList();
+  getNewTaskList();
+
 }
 
 function updateTask() {
-  if (!taskTitle.value) {
-    alert("Task title cannot be empty.");
-    return;
-  }
 
   const taskListIndex = taskList.findIndex(
     (item) => item.id === currentTask.id
@@ -52,7 +39,7 @@ function updateTask() {
 
   taskList[taskListIndex] = taskObj;
 
-  getTaskList();
+  getNewTaskList();
 }
 
 function toggler() {
@@ -68,54 +55,106 @@ addBtn.addEventListener("click", () => {
 });
 
 taskSubmit.addEventListener("click", () => {
-  toggler();
+
+    if (!taskTitle.value) {
+    alert("Task title cannot be empty.");
+    return;
+  }
 
   if (taskSubmit.innerText === "Submit") {
     addTask();
+  } else {
+    updateTask();
   }
 
-  updateTask();
+  toggler();
+
 });
 
-function getTaskList() {
-  taskContainer.innerHTML = "";
+// function getTaskList() {
+//   taskContainer.innerHTML = "";
+//   taskList.forEach((el) => {
+//     taskContainer.innerHTML += `
+//         <div id="${el.id}">
+//             <div class="task-check">
+//             <p id="show-task" style="color: ${
+//               el.checked ? "red" : "inherit"
+//             };">${el.title}</p>
+//             <input type="checkbox" id="check-task" onchange="checkedTask(${
+//               el.id
+//             })" ${el.checked ? "checked" : ""}>
+//             </div>
+//             <button type="button" id="edit-btn" onclick="editTask('${
+//               el.id
+//             }')">Edit</button>
+//             <button type="button" id="delete-btn" onclick="deleteTask('${
+//               el.id
+//             }')">Delete</button>
+//         </div>
+//         `;
+//   });
+// }
+
+// trying to work with create element
+
+function getNewTaskList() {
+  
+    taskContainer.replaceChildren();
+
   taskList.forEach((el) => {
-    taskContainer.innerHTML += `
-        <div id="${el.id}">
-            <div class="task-check">
-            <p id="show-task" style="color: ${
-              el.checked ? "red" : "inherit"
-            };">${el.title}</p>
-            <input type="checkbox" id="check-task" onchange="checkedTask(${
-              el.id
-            })" ${el.checked ? "checked" : ""}>
-            </div>
-            <button type="button" id="edit-btn" onclick="editTask('${
-              el.id
-            }')">Edit</button>
-            <button type="button" id="delete-btn" onclick="deleteTask('${
-              el.id
-            }')">Delete</button>
-        </div>
-        `;
+    const listContainer = document.createElement("div");
+    listContainer.id = `${el.id}`;
+
+    const singleTaskContainer = document.createElement('div');
+    singleTaskContainer.classList.add('task-check');
+
+    const title = document.createElement('p');
+    title.classList.add("show-task");
+    title.textContent = el.title;
+    title.style.color = el.checked ? 'red' : 'inherit';
+
+    const checkboxInput = document.createElement('input');
+    checkboxInput.type = 'checkbox';
+    checkboxInput.classList.add('check-task');
+    checkboxInput.checked = el.checked;
+
+    checkboxInput.addEventListener("change" , () => checkedTask(`${el.id}`));
+
+    singleTaskContainer.append(title , checkboxInput);
+
+    const editButton = document.createElement('button');
+    editButton.classList.add('edit-btn');
+    editButton.type = "button";
+    editButton.textContent = 'Edit';
+
+    editButton.addEventListener("click" , () => editTask(`${el.id}`));
+
+    const deleteButton = document.createElement('button');
+    deleteButton.classList.add('delete-btn');
+    deleteButton.type = "button";
+    deleteButton.textContent = 'Delete';
+
+    deleteButton.addEventListener("click" , () => deleteTask(`${el.id}`));
+
+    listContainer.append(singleTaskContainer , editButton , deleteButton);
+
+    taskContainer.appendChild(listContainer);
+
   });
+  
 }
 
 function deleteTask(id) {
-  let isConfirmed = confirm("Are you sure to delete this task?");
+  const isConfirmed = confirm("Are you sure to delete this task?");
 
-  if (isConfirmed) {
-    const taskListIndex = taskList.findIndex((item) => item.id === id);
+  if (!isConfirmed) return;
 
-    console.log(taskList);
-    console.log(taskListIndex);
-    console.log(id);
+  const taskListIndex = taskList.findIndex((item) => item.id === id);
 
-    taskList.splice(taskListIndex, 1);
-    getTaskList();
-  }
+  taskList.splice(taskListIndex, 1);
+// getTaskList();
+  getNewTaskList();
 
-  getTaskList();
 }
 
 function editTask(id) {
@@ -125,20 +164,20 @@ function editTask(id) {
 
   taskTitle.value = currentTask.title;
 
-  toggler();
-
   taskSubmit.innerText = "Update Task";
+
+  toggler();
 }
 
 function checkedTask(id) {
   taskList = taskList.map((item) => {
-    console.log(item.id == id ? !item.checked : item.checked);
+
     return {
       id: item.id,
       title: item.title,
-      checked: item.id == id ? !item.checked : item.checked,
+      checked: item.id === id ? !item.checked : item.checked,
     };
   });
-  console.log(taskList);
-  getTaskList();
+
+  getNewTaskList();
 }
