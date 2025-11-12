@@ -72,6 +72,7 @@ function getNewTaskList() {
   taskList.forEach((el) => {
     const listContainer = document.createElement("div");
     listContainer.id = `${el.id}`;
+    listContainer.classList.add("single-task");
 
     const singleTaskContainer = document.createElement("div");
     singleTaskContainer.classList.add("task-check");
@@ -79,7 +80,8 @@ function getNewTaskList() {
     const title = document.createElement("p");
     title.classList.add("show-task");
     title.textContent = el.title;
-    title.style.color = el.checked ? "red" : "inherit";
+    title.style.color = el.checked ? "#B2B0E899" : "inherit";
+    title.style.textDecoration = el.checked ? "line-through #B2B0E8" : "none";
 
     const checkboxInput = document.createElement("input");
     checkboxInput.type = "checkbox";
@@ -88,7 +90,9 @@ function getNewTaskList() {
 
     checkboxInput.addEventListener("change", () => checkedTask(`${el.id}`));
 
-    singleTaskContainer.append(title, checkboxInput);
+    singleTaskContainer.append(checkboxInput, title);
+
+    const buttonContainer = document.createElement("div");
 
     const editButton = document.createElement("button");
     editButton.classList.add("edit-btn");
@@ -104,7 +108,9 @@ function getNewTaskList() {
 
     deleteButton.addEventListener("click", () => deleteTask(`${el.id}`));
 
-    listContainer.append(singleTaskContainer, editButton, deleteButton);
+    buttonContainer.append(editButton, deleteButton);
+
+    listContainer.append(singleTaskContainer, buttonContainer);
 
     taskContainer.appendChild(listContainer);
   });

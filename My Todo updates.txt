@@ -4,9 +4,9 @@
 4. deletetask e else art ta redundant } er bahire likhlei hoito.---------done
 5. deletetask e parent element remove korar doirker nain as auto delete hoye jay.-----------done
 6. edittask jei task e hobe okhanei input er option ana lagbe.-----2
-7. innerHTML baad dia kora lagbe, createElement use kore kora lagbe, append child,------1
+7. innerHTML baad dia kora lagbe, createElement use kore kora lagbe, append child,------1 ------done
 
 8. git e new repo create kore main branch e push kora lagbe.------------done
-9. then new branch khola lgbe main branch e then sob task gula new branch e commit kora lagbe.
+9. then new branch khola lgbe main branch e then sob task gula new branch e commit kora lagbe.------done
 10. after all commit a pool request need to be create on this new branch.
-11. then push it to a netlify.
+11. then push it to a netlify.----done
