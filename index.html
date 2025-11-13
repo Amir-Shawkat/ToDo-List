@@ -9,11 +9,13 @@
 <body>
     <main>
         <h1>My ToDo List</h1>
+        <button type="button" id="clear-btn">Clear List</button>
         <button type="button" class="add-btn" id="add-btn">Add New Task</button>
         <div class="add-task-container hide" id="add-task-container">
             <label for="task-title">Title: </label>
             <input name="title" class="task-title" id="task-title" required>
             <button type="submit" id="task-submit">Submit</button>
+            <button type="button" id="cancel-submit">Cancel</button>
         </div>
        
         <div class="task-container" id="task-container">

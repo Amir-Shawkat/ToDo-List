@@ -3,10 +3,14 @@
 3. add and update should be different function.-----0--------------------done
 4. deletetask e else art ta redundant } er bahire likhlei hoito.---------done
 5. deletetask e parent element remove korar doirker nain as auto delete hoye jay.-----------done
-6. edittask jei task e hobe okhanei input er option ana lagbe.-----2
+6. edittask jei task e hobe okhanei input er option ana lagbe.-----2-------done
 7. innerHTML baad dia kora lagbe, createElement use kore kora lagbe, append child,------1 ------done
 
 8. git e new repo create kore main branch e push kora lagbe.------------done
 9. then new branch khola lgbe main branch e then sob task gula new branch e commit kora lagbe.------done
 10. after all commit a pool request need to be create on this new branch.
 11. then push it to a netlify.----done
+12. search case add korte hobe app er surute, jeta title gular sathe match korate hobe otherwise filter korte hobe, but no match paile " no matche found for the [input]" .
+13. checkbox er left e button add kore up or doewn korte hbe.-------done
+14. then eta browser ee savve rakhte hobe and persist korte hobe, and all case dekha lagbe.,,,4ta case dekha lagbe;--------done
+15. alada brancch e drag and drop akare list ordering kora laggbe, mainly update case of case 13.

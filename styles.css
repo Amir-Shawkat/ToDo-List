@@ -23,15 +23,16 @@ main {
   text-align: center;
   border-radius: 20px;
   color: #b2b0e8;
+  position: relative;
 }
 
 button {
   background-color: #3b38a0;
   color: #b2b0e8;
-  padding: 7px;
+  padding: 5px;
   border-radius: 10px;
   font-size: 16px;
-  margin: 10px 5px;
+  margin: 5px 5px;
   cursor: pointer;
   transition: 0.5s ease;
 }
@@ -45,6 +46,39 @@ button:hover {
 button:active {
   transform: translateY(2px);
   transition: 0.2s ease;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.updown-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.up-btn,
+.down-btn {
+  padding: 3px;
+  margin: 2px 5px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  font-size: 14px;
+  text-align: center;
+  line-height: 50%;
+}
+
+#clear-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+#clear-btn:hover {
+  border: 2px solid rgb(252, 71, 71);
 }
 
 .add-task-container label {
@@ -65,13 +99,14 @@ button:active {
   display: flex;
   flex-direction: column;
   border-radius: 20px;
+  transition: 0.5s ease;
 }
 
 .task-check {
   background-color: inherit;
   display: flex;
   justify-content: start;
-  width: calc(100% - 130px);
+  width: calc(100% - 150px);
   overflow-wrap: break-word;
 }
 
@@ -79,7 +114,8 @@ button:active {
   margin: 0 10px;
 }
 
-.single-task {
+.single-task,
+.update-container {
   background-color: #1a2a80;
   display: flex;
   justify-content: space-between;
@@ -89,8 +125,21 @@ button:active {
   margin: 5px 5px 0 5px;
 }
 
-.single-task:last-child{
+.single-task:nth-last-child(2) {
   margin-bottom: 5px;
+}
+
+.update-container:last-child {
+  margin-bottom: 5px;
+}
+
+.update-title {
+  background: #3b38a066;
+  color: #b2b0e8;
+  padding: 5px;
+  border-radius: 10px;
+  font-size: 16px;
+  margin-left: 25px;
 }
 
 .show-task {

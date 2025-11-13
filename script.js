@@ -4,12 +4,19 @@ const addTaskContainer = document.getElementById("add-task-container");
 const taskSubmit = document.getElementById("task-submit");
 const taskTitle = document.getElementById("task-title");
 const taskContainer = document.getElementById("task-container");
+const cancelSubmit = document.getElementById("cancel-submit");
 
-let taskList = [];
+const clearList = document.getElementById("clear-btn");
+
+// const updateTitle = document.getElementById("update-title");
+
+let taskList = JSON.parse(localStorage.getItem("todoList")) || [];
 
 let currentTask = {};
 
 let taskChecked = false;
+
+getNewTaskList();
 
 function addTask() {
   const taskObj = {
@@ -20,21 +27,30 @@ function addTask() {
 
   taskList.unshift(taskObj);
 
+  localStorage.setItem("todoList", JSON.stringify(taskList));
+
   getNewTaskList();
 }
 
-function updateTask() {
+function updateTask(str) {
+  if (!str) {
+    alert("Task title cannot be empty.");
+    return;
+  }
+
   const taskListIndex = taskList.findIndex(
     (item) => item.id === currentTask.id
   );
 
   const taskObj = {
     id: `${currentTask.id}`,
-    title: `${taskTitle.value}`,
+    title: str,
     checked: currentTask.checked,
   };
 
   taskList[taskListIndex] = taskObj;
+
+  localStorage.setItem("todoList", JSON.stringify(taskList));
 
   getNewTaskList();
 }
@@ -48,7 +64,6 @@ addBtn.addEventListener("click", () => {
   toggler();
 
   taskTitle.value = "";
-  taskSubmit.innerText = "Submit";
 });
 
 taskSubmit.addEventListener("click", () => {
@@ -57,16 +72,20 @@ taskSubmit.addEventListener("click", () => {
     return;
   }
 
-  if (taskSubmit.innerText === "Submit") {
-    addTask();
-  } else {
-    updateTask();
-  }
+  addTask();
 
   toggler();
 });
 
+cancelSubmit.addEventListener("click", () => {
+  toggler();
+});
+
 function getNewTaskList() {
+  taskList.length === 0
+    ? (clearList.style.display = "none")
+    : (clearList.style.display = "block");
+
   taskContainer.replaceChildren();
 
   taskList.forEach((el) => {
@@ -93,13 +112,12 @@ function getNewTaskList() {
     singleTaskContainer.append(checkboxInput, title);
 
     const buttonContainer = document.createElement("div");
+    buttonContainer.classList.add("button-container");
 
     const editButton = document.createElement("button");
     editButton.classList.add("edit-btn");
     editButton.type = "button";
     editButton.textContent = "Edit";
-
-    editButton.addEventListener("click", () => editTask(`${el.id}`));
 
     const deleteButton = document.createElement("button");
     deleteButton.classList.add("delete-btn");
@@ -108,13 +126,91 @@ function getNewTaskList() {
 
     deleteButton.addEventListener("click", () => deleteTask(`${el.id}`));
 
-    buttonContainer.append(editButton, deleteButton);
+    const updateContainer = document.createElement("div");
+    updateContainer.classList.add("update-container");
+    updateContainer.style.display = "none";
+
+    const updateInput = document.createElement("input");
+    updateInput.classList.add("update-title");
+
+    const updateButtonContainer = document.createElement("div");
+
+    const updateButton = document.createElement("button");
+    updateButton.type = "button";
+    updateButton.textContent = "Update";
+
+    const cancelButton = document.createElement("button");
+    cancelButton.type = "button";
+    cancelButton.textContent = "Cancel";
+
+    const updownContainer = document.createElement("div");
+    updownContainer.classList.add("updown-container");
+
+    const upBtn = document.createElement("button");
+    upBtn.type = "button";
+    upBtn.textContent = "⇑";
+    upBtn.classList.add("up-btn");
+
+    const downBtn = document.createElement("button");
+    downBtn.type = "button";
+    downBtn.textContent = "⇓";
+    downBtn.classList.add("down-btn");
+
+    updownContainer.append(upBtn, downBtn);
+
+    updateButtonContainer.append(updateButton, cancelButton);
+
+    updateContainer.append(updateInput, updateButtonContainer);
+
+    buttonContainer.append(updownContainer, editButton, deleteButton);
 
     listContainer.append(singleTaskContainer, buttonContainer);
 
-    taskContainer.appendChild(listContainer);
+    taskContainer.append(listContainer, updateContainer);
+
+    editButton.addEventListener("click", () => {
+      updateContainer.style.display = "flex";
+      listContainer.style.display = "none";
+      updateInput.value = `${el.title}`;
+      editTask(`${el.id}`);
+    });
+
+    cancelButton.addEventListener("click", () => {
+      updateInput.value = "";
+      currentTask = {};
+      updateContainer.style.display = "none";
+      listContainer.style.display = "flex";
+    });
+
+    updateButton.addEventListener("click", () => {
+      updateTask(updateInput.value);
+      updateContainer.style.display = "none";
+      listContainer.style.display = "flex";
+    });
+
+    upBtn.addEventListener("click", () => {
+      moveTask(`${el.id}`, "up");
+      getNewTaskList();
+    });
+
+    downBtn.addEventListener("click", () => {
+      moveTask(`${el.id}`, "down");
+      getNewTaskList();
+    });
   });
 }
+
+clearList.addEventListener("click", () => {
+  const isConfirmed = confirm("Are you sure to clear the ToDo list?");
+
+  if (!isConfirmed) return;
+
+  localStorage.removeItem("todoList");
+
+  taskList = [];
+
+  getNewTaskList();
+});
 
 function deleteTask(id) {
   const isConfirmed = confirm("Are you sure to delete this task?");
@@ -124,6 +220,9 @@ function deleteTask(id) {
   const taskListIndex = taskList.findIndex((item) => item.id === id);
 
   taskList.splice(taskListIndex, 1);
+
+  localStorage.setItem("todoList", JSON.stringify(taskList));
+
   // getTaskList();
   getNewTaskList();
 }
@@ -132,12 +231,6 @@ function editTask(id) {
   const taskListIndex = taskList.findIndex((item) => item.id === id);
 
   currentTask = taskList[taskListIndex];
-
-  taskTitle.value = currentTask.title;
-
-  taskSubmit.innerText = "Update Task";
-
-  toggler();
 }
 
 function checkedTask(id) {
@@ -148,6 +241,26 @@ function checkedTask(id) {
       checked: item.id === id ? !item.checked : item.checked,
     };
   });
-
+  localStorage.setItem("todoList", JSON.stringify(taskList));
   getNewTaskList();
+}
+
+function moveTask(id, direction) {
+  const currentIndex = taskList.findIndex((item) => item.id === id);
+
+  const newIndex = direction === "up" ? currentIndex - 1 : currentIndex + 1;
+
+  if (newIndex >= 0 && newIndex < taskList.length) {
+    const newTaskList = [...taskList];
+
+    const [movedTask] = newTaskList.splice(currentIndex, 1);
+
+    newTaskList.splice(newIndex, 0, movedTask);
+
+    taskList = newTaskList;
+
+    return taskList;
+  }
+
+  return taskList;
 }
