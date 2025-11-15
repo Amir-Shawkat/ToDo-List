@@ -16,7 +16,8 @@ body {
 
 main {
   background: #1a2a80;
-  display: inline-block;
+  display: block;
+  justify-content: center;
   width: clamp(10vw, 800px, 100vw);
   height: auto;
   padding: 20px;
@@ -42,6 +43,8 @@ button:hover {
   transform: scale(1.1);
   transition: 0.5s ease;
 }
+
+
 
 button:active {
   transform: translateY(2px);
@@ -86,7 +89,21 @@ button:active {
   font-weight: bold;
 }
 
-.task-title {
+.search-container{
+  margin: 20px;
+}
+
+.search-container p{
+  margin-top: 20px;
+}
+
+#search-task::placeholder{
+  font-size: 14px;
+  text-align: center;
+  color: #b2b0e8;
+}
+
+.task-title, #search-task {
   background: #3b38a066;
   color: #b2b0e8;
   padding: 5px;
