@@ -17,6 +17,7 @@ body {
 main {
   background: #1a2a80;
   display: block;
+  flex-direction: column;
   justify-content: center;
   width: clamp(10vw, 800px, 100vw);
   height: auto;
@@ -62,6 +63,11 @@ button:active {
   flex-direction: column;
 }
 
+.add-btn{
+  /* width: 200px; */
+  margin: 20px;
+}
+
 .up-btn,
 .down-btn {
   padding: 3px;
@@ -74,14 +80,37 @@ button:active {
   line-height: 50%;
 }
 
+img{
+  width: 20px;
+  height: 20px;
+}
+.edit-image{
+  width: 15px;
+  height: 15px;
+}
+
+.delete-btn, .edit-btn{
+  width: 25px;
+  height:25px;
+  padding: 0px;
+  border-radius: 50%;
+  line-height: 50%;
+}
+
+
 #clear-btn {
   position: absolute;
   top: 10px;
   right: 10px;
+  padding: 2px;
 }
 
 #clear-btn:hover {
   border: 2px solid rgb(252, 71, 71);
+}
+
+.add-task-container{
+  margin:20px;
 }
 
 .add-task-container label {
@@ -90,7 +119,7 @@ button:active {
 }
 
 .search-container{
-  margin: 20px;
+  margin-bottom: 20px;
 }
 
 .search-container p{
@@ -99,7 +128,6 @@ button:active {
 
 #search-task::placeholder{
   font-size: 14px;
-  text-align: center;
   color: #b2b0e8;
 }
 
@@ -110,6 +138,22 @@ button:active {
   border-radius: 10px;
   font-size: 16px;
 }
+
+#search-task{
+  position: relative;
+  padding-right: 40px;
+}
+
+.search-cancel-btn{
+  position: relative;
+  right: 33px;
+  top: 0px;
+  background-color: #3b38a0;
+  /* border: 1px solid #7a85c1; */
+  padding: 3px
+}
+
+
 
 .task-container {
   background: #3b38a066;
@@ -123,7 +167,7 @@ button:active {
   background-color: inherit;
   display: flex;
   justify-content: start;
-  width: calc(100% - 150px);
+  width: calc(100% - 120px);
   overflow-wrap: break-word;
 }
 
@@ -171,3 +215,49 @@ button:active {
 .task-check {
   display: flex;
 }
+
+@media  screen and (max-width: 500px) {
+  h1{
+    font-size: 24px;
+  }
+  button{
+    font-size: 12px;
+    padding: 3px;
+    margin: 2px
+  }
+  .up-btn , .down-btn{
+    font-size: 12px;
+    padding: 1px;
+    width:17px;
+    height: 17px;
+  }
+  main{
+    display: block;
+    font-size: 12px;
+    padding: 10px;
+    margin: 5px;
+  }
+  .add-btn{
+    margin:10px;
+  }
+  
+  .task-title, #search-task {
+    padding: 2px;
+    border-radius: 10px;
+    font-size: 12px;
+  }
+    #search-task::placeholder{
+    font-size: 12px
+  }
+  #add-task-container label{
+    font-size:16px;
+  }
+  .search-cancel-btn{
+    padding: 1px;
+    right: 23px;
+  }
+    .add-task-container{
+    margin:20px;
+  }
+}
+

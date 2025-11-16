@@ -12,6 +12,7 @@ const editBtn = document.querySelectorAll(".edit-btn")
 
 const notFound = document.getElementById("not-found-message");
 const searchTask = document.getElementById("search-task");
+const searchCancelBtn = document.querySelector(".search-cancel-btn");
 
 let taskList = JSON.parse(localStorage.getItem("todoList")) || [];
 
@@ -27,8 +28,15 @@ searchTask.addEventListener("input" , () => {
 
     getSearchTasks(filteredTasks);
   } else {
+    notFound.style.display = "none";
     getNewTaskList();
   }
+});
+
+searchCancelBtn.addEventListener("click" , () => {
+  searchTask.value = "";
+  notFound.style.display = "none";
+  getNewTaskList();
 });
 
 
@@ -134,13 +142,18 @@ function getNewTaskList() {
     const editButton = document.createElement("button");
     editButton.classList.add("edit-btn");
     editButton.type = "button";
-    editButton.textContent = "Edit";
     el.checked === true ? editButton.style.display = "none" : editButton.style.display = "block";
+    const editImage = document.createElement("img");
+    editImage.src = "edit-icon.svg";
+    editImage.classList.add("edit-image");
+    editButton.appendChild(editImage);
 
     const deleteButton = document.createElement("button");
     deleteButton.classList.add("delete-btn");
     deleteButton.type = "button";
-    deleteButton.textContent = "Delete";
+    const deleteImage = document.createElement("img");
+    deleteImage.src = "delete-circle.svg";
+    deleteButton.appendChild(deleteImage);
 
     deleteButton.addEventListener("click", () => deleteTask(`${el.id}`));
 
@@ -270,13 +283,19 @@ function getSearchTasks(filter){
       const editButton = document.createElement("button");
       editButton.classList.add("edit-btn");
       editButton.type = "button";
-      editButton.textContent = "Edit";
       el.checked === true ? editButton.style.display = "none" : editButton.style.display = "block";
+      const editImage = document.createElement("img");
+      editImage.src = "edit-icon.svg";
+      editImage.classList.add("edit-image");
+      editButton.appendChild(editImage);
+
 
       const deleteButton = document.createElement("button");
       deleteButton.classList.add("delete-btn");
       deleteButton.type = "button";
-      deleteButton.textContent = "Delete";
+      const deleteImage = document.createElement("img");
+      deleteImage.src = "delete-circle.svg";
+      deleteButton.appendChild(deleteImage);
 
       const updateContainer = document.createElement("div");
       updateContainer.classList.add("update-container");
